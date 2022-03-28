@@ -40,15 +40,35 @@ public class Parque implements IParque{
 		// Comprobamos personas y puertos
 		checkInvariante();
 		
-		// TODO
+		//Notificamos al resto de los hilos nuestra entrada
 		notifyAll();
 	}
 	
-	// 
+	 
 	@Override
 	public synchronized void salirDelParque(String puerta) {
+		// Si no hay salida por esa puerta, inicializamos
+		if (contadoresPersonasPuerta.get(puerta) == null){
+			contadoresPersonasPuerta.put(puerta, 0);
+		}
 		
-	}//
+		comprobarAntesDeSalir();
+		
+		// Disminuimos el contador total y el individual
+		contadorPersonasTotales--;		
+		contadoresPersonasPuerta.put(puerta, contadoresPersonasPuerta.get(puerta)-1);
+		
+		// Imprimimos el estado del parque
+		imprimirInfo(puerta, "Salida");
+				
+		// Comprobamos personas y puertos
+		checkInvariante();
+				
+		//Notificamos al resto de los hilos nuestra salida
+		notifyAll();
+				
+		
+	}
 	
 	
 	private void imprimirInfo (String puerta, String movimiento){
