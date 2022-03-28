@@ -6,8 +6,8 @@ import java.util.Hashtable;
 public class Parque implements IParque{
 
 
-	private int aforoMax;
-	private int aforoMin;
+	static int aforoMax;
+	static int aforoMin;
 	private int contadorPersonasTotales;
 	private Hashtable<String, Integer> contadoresPersonasPuerta;
 	
@@ -28,7 +28,7 @@ public class Parque implements IParque{
 			contadoresPersonasPuerta.put(puerta, 0);
 		}
 		
-		//TODO		
+		comprobarAntesDeEntrar();		
 		
 		// Aumentamos el contador total y el individual
 		contadorPersonasTotales++;		
@@ -37,11 +37,11 @@ public class Parque implements IParque{
 		// Imprimimos el estado del parque
 		imprimirInfo(puerta, "Entrada");
 		
+		// Comprobamos personas y puertos
+		checkInvariante();
+		
 		// TODO
-		
-		
-		// TODO
-		
+		notifyAll();
 	}
 	
 	// 
@@ -80,7 +80,7 @@ public class Parque implements IParque{
 		
 	}
 
-	protected void comprobarAntesDeEntrar(){	// TODO
+	protected void comprobarAntesDeEntrar(){	
 		while (sumarContadoresPuerta() == aforoMax) {
 			try {
 				wait();
@@ -92,7 +92,7 @@ public class Parque implements IParque{
 		
 	}
 
-	protected void comprobarAntesDeSalir(){		// TODO
+	protected void comprobarAntesDeSalir(){		
 		while (sumarContadoresPuerta() == aforoMin) {
 			try {
 				wait();
